@@ -46,60 +46,166 @@ description: |
 - Use parallel execution for independent tasks
 - Synthesize results from multiple perspectives
 
-## Skill-Based Routing
+## Intelligent Agent Routing with Verification
 
-PAI uses skills to organize domain expertise. When you detect these patterns, activate the appropriate skill:
+PAI uses **auto-discovery** to find the right agents and skills for each task. Instead of rigid routing tables, the system reads agent/skill descriptions from YAML frontmatter and intelligently matches them to user requests.
 
-**Research & Information:**
-- "Research X", "Find information about", "Investigate" → **research skill**
-  - Launches researcher agent
-  - Multi-perspective analysis via parallel claude-researcher agents
-  - WebSearch-based, no external APIs required
+### How Auto-Discovery Works
 
-**Content Processing:**
-- "Summarize", "Extract insights", "Create threat model" → **fabric skill**
-  - 242+ specialized patterns for content transformation
-  - Requires fabric repo clone (one-time setup)
+**Agent Discovery:**
+- System automatically reads all agent descriptions from `.claude/agents/*.md` YAML frontmatter
+- Claude's natural language understanding matches user intent to agent expertise
+- No manual routing tables to maintain - just drop new agents in the folder
 
-**Business & Offers:**
-- "Create pitch", "Build offer", "Value proposition" → **alex-hormozi-pitch skill**
-  - $100M Offers methodology
-  - Value equation, guarantees, pricing psychology
+**Skill Discovery:**
+- Same auto-discovery for skills in `.claude/skills/*/SKILL.md`
+- Rich descriptions in YAML frontmatter enable semantic matching
+- Add new skills without updating routing logic
 
-**CLI Development:**
-- "Create CLI", "Build command-line tool" → **system-createcli skill**
-  - Production-ready TypeScript CLIs
-  - Full documentation, error handling, best practices
+**Available Agents:**
+- `architect` - Software architecture, PRDs, technical specifications, system design
+- `engineer` - Production-quality implementation, testing, optimization
+- `designer` - UX/UI design, accessibility, design systems, user research
+- `researcher` - Multi-perspective research orchestration, spawns claude-researcher agents
+- `claude-researcher` - WebSearch-based research with query decomposition
+- `pentester` - Security testing, vulnerability assessment, penetration testing
+- `qa-specialist` - Quality verification, error detection, completeness checking
 
-**Prompt Engineering:**
-- "Prompt engineering", "Context optimization" → **prompting skill**
-  - Anthropic best practices
-  - Progressive disclosure patterns
-  - Signal-to-noise optimization
+**Available Skills:**
+- `research` - Research coordination with multi-agent orchestration
+- `fabric` - 242+ content transformation patterns (requires fabric repo)
+- `alex-hormozi-pitch` - $100M Offers methodology for pitches
+- `system-createcli` - TypeScript CLI generation with best practices
+- `prompting` - Prompt engineering and context optimization
+- `create-skill` - Skill creation following PAI standards
+- `ffuf` - Web fuzzing guidance for penetration testing
 
-**Security Testing:**
-- "Pentest", "Security audit", "Vulnerability assessment" → Use **pentester agent**
-  - Authorized testing only
-  - Systematic methodology
-  - Comprehensive reporting
+### Routing Verification Pattern
 
-**System Design:**
-- "Architecture", "PRD", "System design" → Use **architect agent**
-  - Comprehensive specifications
-  - Technical documentation
-  - Feature breakdown
+**For Complex Multi-Agent Workflows:**
 
-**Implementation:**
-- "Build", "Implement", "Code this" → Use **engineer agent**
-  - Production-quality code
-  - Testing and optimization
-  - Best practices
+When a task requires multiple agents working in coordination, present a routing plan BEFORE execution:
 
-**Design:**
-- "UX/UI", "Design system", "User experience" → Use **designer agent**
-  - User-centered design
-  - Accessibility
-  - Visual design
+**Routing Plan Template:**
+```
+📋 WORKFLOW ROUTING PLAN
+
+**Task:** [User's request summary]
+
+**Proposed Workflow:**
+1. [Agent/Skill Name] - [What it will do]
+2. [Agent/Skill Name] - [What it will do]
+3. [Agent/Skill Name] - [What it will do]
+
+**Reasoning:** [Why this routing makes sense]
+
+**Proceed with this plan?**
+```
+
+**User can:**
+- ✅ Approve → Execute as planned
+- ❌ Reject → Revise routing
+- 🔄 Modify → Adjust specific agents/steps
+
+**For Simple Single-Agent Tasks:**
+
+Execute immediately without verification:
+- Single agent clearly matches intent
+- Straightforward task with obvious routing
+- User won't benefit from seeing the plan
+
+### Verification Triggers
+
+**REQUIRE Verification (Present Plan First):**
+- **Multi-Agent Coordination** - 2+ agents working together
+- **Complex Workflows** - Multiple sequential steps
+- **Ambiguous Intent** - Multiple valid routing approaches
+- **High-Stakes Work** - Production deployments, security-critical
+- **User Uncertainty** - User seems unsure of best approach
+
+**AUTO-EXECUTE (No Verification Needed):**
+- **Single Agent** - Only one agent needed
+- **Clear Intent** - User request unambiguously matches one agent/skill
+- **Simple Tasks** - Research a topic, review code, design a component
+- **User Expertise** - User explicitly requested specific agent/skill
+
+### Routing Examples
+
+**Example 1: Complex Multi-Agent (VERIFY FIRST)**
+
+User: "Build a new authentication system for production"
+
+```
+📋 WORKFLOW ROUTING PLAN
+
+**Task:** Build production-ready authentication system
+
+**Proposed Workflow:**
+1. architect - Create comprehensive PRD with security architecture
+2. engineer - Implement authentication system from PRD
+3. qa-specialist - Verify security, completeness, production-readiness
+
+**Reasoning:** Security-critical + production deployment requires
+architecture planning, implementation, and thorough QA verification.
+
+**Proceed with this plan?**
+```
+
+**Example 2: Simple Single-Agent (AUTO-EXECUTE)**
+
+User: "Research the latest React performance optimization techniques"
+
+→ Launches `researcher` agent immediately (no verification needed)
+→ researcher spawns multiple claude-researcher agents for multi-perspective analysis
+→ Returns comprehensive research findings
+
+**Example 3: Ambiguous Intent (VERIFY FIRST)**
+
+User: "I want to improve my app's performance"
+
+```
+📋 WORKFLOW ROUTING PLAN
+
+**Task:** Improve application performance
+
+**Proposed Workflow:**
+1. engineer - Audit codebase for performance bottlenecks
+2. architect - Design optimization strategy if major refactoring needed
+3. engineer - Implement optimizations
+4. qa-specialist - Verify performance improvements
+
+**Reasoning:** "Improve performance" could mean profiling, optimization,
+or architecture changes. Starting with audit to identify scope.
+
+**Alternative:** If you want research on performance best practices first,
+I can launch researcher agent instead.
+
+**Proceed with this plan?**
+```
+
+**Example 4: User-Specified Agent (AUTO-EXECUTE)**
+
+User: "Use the pentester agent to audit my API security"
+
+→ Launches `pentester` agent immediately (user explicitly specified)
+→ No verification needed when user knows what they want
+
+### Routing Flexibility Benefits
+
+**Automatic Adaptation:**
+- New agents automatically discovered when added to `.claude/agents/`
+- New skills automatically available when added to `.claude/skills/`
+- No routing table maintenance required
+
+**User Control:**
+- Verification prevents mis-routing on complex workflows
+- User can override or modify routing plans
+- Simple tasks execute immediately without overhead
+
+**Best of Both Worlds:**
+- **Flexibility** - Auto-discovery finds the right expertise
+- **Reliability** - Verification ensures complex workflows are correct
+- **Efficiency** - Simple tasks execute without delays
 
 ## Quality Assurance Layer
 
