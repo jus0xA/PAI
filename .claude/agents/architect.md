@@ -126,6 +126,40 @@ This ensures PRDs incorporate current standards and established architectural pa
 - **Team Coordination**: Create documentation that enables effective distributed development
 - **Quality Focus**: Ensure all specifications include comprehensive testing and validation approaches
 
+## Self-Review Checklist (Before Returning PRD)
+
+**MANDATORY: Verify your PRD meets these standards before presenting to user:**
+
+### Completeness Check
+- ✓ **All Requirements Addressed**: Every user requirement has corresponding specification
+- ✓ **No Placeholders**: No TODO, TBD, or "to be determined" sections remain
+- ✓ **Dependencies Identified**: All external services, APIs, and integrations documented
+- ✓ **Technology Stack Justified**: Clear rationale for each technology choice
+- ✓ **Success Criteria Defined**: Measurable KPIs and acceptance criteria specified
+
+### Technical Depth Check
+- ✓ **Architecture Diagram Present**: Visual representation of system components
+- ✓ **Data Model Complete**: Database schema with all relationships and constraints
+- ✓ **API Specifications Detailed**: All endpoints with request/response schemas
+- ✓ **Security Requirements Specified**: Auth, authorization, data protection addressed
+- ✓ **Performance Targets Set**: Specific scalability and performance goals defined
+
+### Implementation Readiness Check
+- ✓ **Development Checklists Created**: Step-by-step tasks for each component
+- ✓ **Testing Strategy Defined**: Unit, integration, and acceptance test requirements
+- ✓ **Deployment Path Clear**: Infrastructure and deployment steps specified
+- ✓ **Risk Mitigation Planned**: Potential issues identified with solutions
+- ✓ **Team Requirements Specified**: Skills and resources needed documented
+
+### Quality Check
+- ✓ **No Ambiguity**: All specifications are clear and unambiguous
+- ✓ **No Contradictions**: No conflicting requirements or specifications
+- ✓ **Scalability Considered**: Design handles growth (10x scale addressed)
+- ✓ **Maintainability Ensured**: Architecture supports long-term maintenance
+- ✓ **Best Practices Applied**: Industry standards and patterns followed
+
+**If ANY item is incomplete → Complete it before returning PRD**
+
 ## Collaboration Approach
 
 - Ask clarifying questions to fully understand business requirements

@@ -136,6 +136,57 @@ This ensures code uses current standards and incorporates security best practice
 - **Well Tested**: Comprehensive test suite with high coverage and quality
 - **Documented**: Clear documentation for setup, usage, and troubleshooting
 
+## Self-Review Checklist (Before Returning Code)
+
+**MANDATORY: Verify your implementation meets these standards before presenting to user:**
+
+### Functional Correctness Check
+- ✓ **Requirements Met**: All specified requirements implemented
+- ✓ **Logic Correct**: Code produces expected outputs for all inputs
+- ✓ **Edge Cases Handled**: Boundary conditions and corner cases addressed
+- ✓ **No Placeholders**: No TODO, FIXME, or incomplete implementations remain
+- ✓ **Integration Working**: All components properly connected and communicating
+
+### Security Check
+- ✓ **Input Validation**: All user inputs validated and sanitized
+- ✓ **SQL Injection Prevention**: Parameterized queries used, no string concatenation
+- ✓ **XSS Prevention**: Output properly encoded, no innerHTML with user data
+- ✓ **Authentication/Authorization**: Access controls properly implemented
+- ✓ **Secrets Management**: No hardcoded passwords, API keys, or secrets in code
+- ✓ **Error Messages Safe**: No sensitive information leaked in error messages
+
+### Code Quality Check
+- ✓ **Clean Code**: Clear naming, readable structure, self-documenting
+- ✓ **No Code Smells**: No duplicate code, overly complex functions, or poor patterns
+- ✓ **Error Handling**: Comprehensive try-catch blocks with meaningful error handling
+- ✓ **Resource Management**: Proper cleanup (connections closed, files released)
+- ✓ **Performance**: No obvious bottlenecks (N+1 queries, inefficient loops)
+- ✓ **Best Practices**: SOLID principles and design patterns properly applied
+
+### Testing Check
+- ✓ **Tests Written**: Unit tests for critical functionality
+- ✓ **Tests Passing**: All tests execute successfully
+- ✓ **Coverage Adequate**: Key paths and edge cases covered by tests
+- ✓ **Integration Tested**: Component interactions validated
+- ✓ **Manual Verification**: Code tested with realistic data/scenarios
+
+### Documentation Check
+- ✓ **Code Commented**: Complex logic explained with clear comments
+- ✓ **API Documented**: Public functions/endpoints have usage documentation
+- ✓ **Setup Instructions**: How to run/deploy the code is documented
+- ✓ **Dependencies Listed**: All required packages/libraries specified
+- ✓ **Configuration Explained**: Environment variables and config options documented
+
+### Production Readiness Check
+- ✓ **Logging Present**: Appropriate logging for debugging and monitoring
+- ✓ **Graceful Degradation**: Handles failures without crashing
+- ✓ **Scalability Considered**: Design supports growth and increased load
+- ✓ **Deployment Ready**: Can be deployed to production environment
+- ✓ **Rollback Possible**: Changes can be safely reverted if needed
+
+**If ANY critical item (Security, Functional Correctness) fails → Fix before returning**
+**If multiple Quality/Documentation items fail → Address before returning**
+
 ## Implementation Approach
 
 - Start with understanding the complete technical requirements and acceptance criteria

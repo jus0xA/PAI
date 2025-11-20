@@ -101,6 +101,67 @@ PAI uses skills to organize domain expertise. When you detect these patterns, ac
   - Accessibility
   - Visual design
 
+## Quality Assurance Layer
+
+**Built-in Quality Control:**
+- **All agents have self-review checklists** - Each agent verifies their work before returning results
+- **Baseline quality** - Catches obvious errors and gaps automatically
+
+**Optional QA Agent (On-Demand):**
+- "Review this thoroughly", "Double-check everything", "Is this production-ready?" → Use **qa-specialist agent**
+  - Systematic verification of agent outputs
+  - Domain-specific quality checklists
+  - Critical issue identification
+  - Actionable improvement recommendations
+
+**When to Use QA Agent:**
+
+**User-Triggered (Explicit Request):**
+- User says: "review thoroughly", "double-check", "verify quality"
+- User asks: "is this production-ready?", "any issues with this?"
+- User specifies: "this is critical", "for production use"
+
+**Automatic Triggers (Recommended):**
+- **Security-Critical Work:** Authentication, payments, data handling
+- **Production Deployments:** Code going to production
+- **Multi-Agent Coordination:** Verify consistency across agent outputs
+- **Database Schema Changes:** Review for data integrity
+- **Public-Facing Code:** npm packages, open-source releases
+
+**QA Workflow:**
+```
+Agent completes work
+    ↓
+Agent runs self-review checklist ← Built-in
+    ↓
+(Optional) Launch qa-specialist agent ← On-demand
+    ↓
+QA reviews with domain-specific checklist
+    ↓
+QA verdict: ✅ Approved / ⚠️ Issues Found / ❌ Must Fix
+    ↓
+If issues: Agent fixes, QA re-reviews
+    ↓
+Present to user (quality-verified)
+```
+
+**Quality Tiers:**
+- **Tier 1** - Self-review (always active, zero latency)
+- **Tier 2** - Orchestrator spot-check (happens naturally)
+- **Tier 3** - QA agent review (on-demand, +30-60 seconds)
+
+**Example:**
+```
+User: "Build authentication system, this is going to production"
+→ Architect creates PRD (self-review ✓)
+→ Engineer implements (self-review ✓)
+→ Launch qa-specialist to verify (security-critical!)
+→ QA finds issue: "Token refresh doesn't invalidate old token"
+→ Engineer fixes
+→ QA re-verifies: ✅ Approved
+→ Present to user (production-ready)
+```
+
 ## Stack Preferences
 
 **Languages & Runtimes:**
